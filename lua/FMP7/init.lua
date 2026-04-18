@@ -25,7 +25,7 @@ end
 function M.complete(arglead, cmdline, _)
     local parts = vim.split(cmdline, "%s+", { trimempty = true })
     local subcmdlist = { "play", "stop", "pause", "fade" }
-    if M.config.fmp7_path ~= nil then
+    if not M.config.fmp7_path or M.config.fmp7_path == "" then
         table.insert(subcmdlist, "boot")
     end
 
@@ -122,7 +122,7 @@ function M._run(args)
         end
     end
 
-    if args[1] == "boot" then
+    if args[1] == "boot" and not M.config.fmp7_path or M.config.fmp7_path == "" then
         vim.system({ "cmd.exe", "/c", "start", "", M.config.fmp7_path, }, { text = true, detach = true }, function(obj)
             if obj.code ~= 0 then
                 vim.notify("fmp7 exited with code: " .. obj.code, vim.log.levels.ERROR)
