@@ -182,7 +182,7 @@ function M.FMP(args)
         return
     end
 
-    if (M.confing.fmp7_path ~= nil) and (cmd == "boot") then
+    if (M.config.fmp7_path ~= nil) and (cmd == "boot") then
         M._run({ "boot" })
         return
     end
