@@ -67,6 +67,7 @@ return {
     FMP7_CLI_PATH = "C:/path/to/FMP7CLI.exe", -- (Required) Specify the path of the command-line tool.
 
     fmp7_path = "C:/path/to/FMP7.exe", -- Specify the path of the FMP7 software.
+                                       -- If its value is nil, You can't use the boot sub-command.
     fadeout_before_play = true, -- Whether to fade out before playing.
 }
 ```
