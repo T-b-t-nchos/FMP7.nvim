@@ -25,7 +25,7 @@ end
 function M.complete(arglead, cmdline, _)
     local parts = vim.split(cmdline, "%s+", { trimempty = true })
     local subcmdlist = { "play", "stop", "pause", "fade" }
-    if not M.config.fmp7_path or M.config.fmp7_path == "" then
+    if M.config.fmp7_path and M.config.fmp7_path ~= "" then
         table.insert(subcmdlist, "boot")
     end
 
