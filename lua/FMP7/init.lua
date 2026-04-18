@@ -23,9 +23,10 @@ end
 
 function M.complete(arglead, cmdline, _)
     local parts = vim.split(cmdline, "%s+", { trimempty = true })
+    local subcmdlist = { "play", "stop", "pause", "fade" }
 
     if #parts <= 1 then
-        return { "play", "stop", "pause", "fade" }
+        return subcmdlist
     end
 
     local sub = parts[2]
@@ -33,7 +34,7 @@ function M.complete(arglead, cmdline, _)
     if #parts == 2 and arglead ~= "" then
         return vim.tbl_filter(function(v)
             return v:find("^" .. arglead)
-        end, { "play", "stop", "pause", "fade" })
+        end, subcmdlist)
     end
 
     if sub == "play" then
