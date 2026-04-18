@@ -122,12 +122,18 @@ function M._run(args)
         end
     end
 
-    if args[1] == "boot" and not M.config.fmp7_path or M.config.fmp7_path == "" then
-        if not vim.uv.fs_stat(M.config.fmp7_path) then
+    if args[1] == "boot" then
+        local fmp7_path = M.config.fmp7_path
+        if not fmp7_path or fmp7_path == "" then
+            vim.notify("FMP.nvim: fmp7_path is not set", vim.log.levels.ERROR)
+            return
+        end
+
+        if not vim.uv.fs_stat(fmp7_path) then
             vim.notify("fmp7_path value is invalid", vim.log.levels.ERROR)
             return
         end
-        vim.system({ "cmd.exe", "/c", "start", "", M.config.fmp7_path, }, { text = true, detach = true }, function(obj)
+        vim.system({ "cmd.exe", "/c", "start", "", fmp7_path }, { text = true, detach = true }, function(obj)
             if obj.code ~= 0 then
                 vim.notify("fmp7 exited with code: " .. obj.code, vim.log.levels.ERROR)
                 return
