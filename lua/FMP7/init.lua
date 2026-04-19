@@ -129,7 +129,7 @@ function M._run(args)
             return
         end
 
-        if not vim.uv.fs_stat(fmp7_path) then
+        if vim.fn.executable(fmp7_path) ~= 1 then
             vim.notify("fmp7_path value is invalid", vim.log.levels.ERROR)
             return
         end
