@@ -133,12 +133,12 @@ function M._run(args)
             vim.notify("fmp7_path value is invalid", vim.log.levels.ERROR)
             return
         end
-        vim.system({ "cmd.exe", "/c", "start", "", fmp7_path }, { text = true, detach = true }, function(obj)
+        vim.system({ "cmd.exe", "/c", "start", "", fmp7_path }, { text = true, detach = true }, vim.schedule_wrap(function(obj)
             if obj.code ~= 0 then
                 vim.notify("fmp7 exited with code: " .. obj.code, vim.log.levels.ERROR)
                 return
             end
-        end)
+        end))
 
         return
     end
