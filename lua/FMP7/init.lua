@@ -5,6 +5,8 @@ M.config = {
 
     fmp7_path = nil,
     fadeout_before_play = true,
+
+    play_roots = {},
 }
 
 function M.setup(user_config)
@@ -43,23 +45,36 @@ function M.complete(arglead, cmdline, _)
 
     if sub == "play" then
         local exts = M._get_supported_exts()
-        local result = {}
 
-        local dirs = vim.fn.glob(arglead .. "*", true, true)
-        for _, p in ipairs(dirs) do
-            if vim.fn.isdirectory(p) == 1 then
-                table.insert(result, p)
+        local function scan(base)
+            local result = {}
+            local query = (base or "") .. arglead
+
+            local paths = vim.fn.glob(query .. "*", true, true)
+            for _, p in ipairs(paths) do
+                if vim.fn.isdirectory(p) == 1 then
+                    table.insert(result, p)
+                else
+                    local ext = p:match("%.([^.]+)$")
+                    if ext and exts[ext:lower()] then
+                        table.insert(result, p)
+                    end
+                end
             end
+
+            return result
         end
 
-        for ext, _ in pairs(exts) do
-            local files = vim.fn.glob(arglead .. "*." .. ext, true, true)
-            for _, f in ipairs(files) do
-                table.insert(result, f)
+        if arglead == "" then
+            local result = {}
+            for _, root in ipairs(M.config.play_roots or {}) do
+                local normalized = root:gsub("[/\\]+$", "") .. "/"
+                vim.list_extend(result, scan(normalized))
             end
+            return result
         end
 
-        return result
+        return scan("")
     end
 
     if sub == "fade" then
@@ -73,11 +88,11 @@ function M.define_commands()
     vim.api.nvim_create_user_command("FMP", function(command)
         M.FMP(command.args)
     end, {
-        nargs = "+",
-        complete = function(arglead, cmdline, cursorpos)
-            return M.complete(arglead, cmdline, cursorpos)
-        end,
-    })
+    nargs = "+",
+    complete = function(arglead, cmdline, cursorpos)
+        return M.complete(arglead, cmdline, cursorpos)
+    end,
+})
 end
 
 function M._run(args)
