@@ -3,6 +3,7 @@ local M = {}
 M.config = {
     FMP7_CLI_PATH = nil,
 
+    fmp7_path = nil,
     fadeout_before_play = true,
 }
 
@@ -23,9 +24,13 @@ end
 
 function M.complete(arglead, cmdline, _)
     local parts = vim.split(cmdline, "%s+", { trimempty = true })
+    local subcmdlist = { "play", "stop", "pause", "fade" }
+    if M.config.fmp7_path and M.config.fmp7_path ~= "" then
+        table.insert(subcmdlist, "boot")
+    end
 
     if #parts <= 1 then
-        return { "play", "stop", "pause", "fade" }
+        return subcmdlist
     end
 
     local sub = parts[2]
@@ -33,7 +38,7 @@ function M.complete(arglead, cmdline, _)
     if #parts == 2 and arglead ~= "" then
         return vim.tbl_filter(function(v)
             return v:find("^" .. arglead)
-        end, { "play", "stop", "pause", "fade" })
+        end, subcmdlist)
     end
 
     if sub == "play" then
@@ -117,6 +122,27 @@ function M._run(args)
         end
     end
 
+    if args[1] == "boot" then
+        local fmp7_path = M.config.fmp7_path
+        if not fmp7_path or fmp7_path == "" then
+            vim.notify("FMP.nvim: fmp7_path is not set", vim.log.levels.ERROR)
+            return
+        end
+
+        if vim.fn.executable(fmp7_path) ~= 1 then
+            vim.notify("fmp7_path value is invalid", vim.log.levels.ERROR)
+            return
+        end
+        vim.system({ "cmd.exe", "/c", "start", "", fmp7_path }, { text = true, detach = true }, vim.schedule_wrap(function(obj)
+            if obj.code ~= 0 then
+                vim.notify("fmp7 exited with code: " .. obj.code, vim.log.levels.ERROR)
+                return
+            end
+        end))
+
+        return
+    end
+
     run_main()
 end
 
@@ -163,6 +189,11 @@ function M.FMP(args)
         else
             M._run({ "fade" })
         end
+        return
+    end
+
+    if (M.config.fmp7_path ~= nil) and (cmd == "boot") then
+        M._run({ "boot" })
         return
     end
 
