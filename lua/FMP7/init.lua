@@ -66,8 +66,14 @@ function M.complete(arglead, cmdline, _)
         end
 
         if arglead == "" then
+            local roots = M.config.play_roots
+
+            if not roots or vim.tbl_isempty(roots) then
+                return scan("")
+            end
+
             local result = {}
-            for _, root in ipairs(M.config.play_roots or {}) do
+            for _, root in ipairs(roots) do
                 local normalized = root:gsub("[/\\]+$", "") .. "/"
                 vim.list_extend(result, scan(normalized))
             end
