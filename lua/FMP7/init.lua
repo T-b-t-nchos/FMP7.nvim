@@ -21,6 +21,11 @@ function M.setup(user_config)
         return
     end
 
+    if vim.fn.executable(M.config.FMP7_CLI_PATH) ~= 1 then
+        vim.notify("FMP7_CLI_PATH value is invalid", vim.log.levels.ERROR)
+        return
+    end
+
     M.define_commands()
 end
 
