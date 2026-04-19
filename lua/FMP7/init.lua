@@ -88,11 +88,11 @@ function M.define_commands()
     vim.api.nvim_create_user_command("FMP", function(command)
         M.FMP(command.args)
     end, {
-    nargs = "+",
-    complete = function(arglead, cmdline, cursorpos)
-        return M.complete(arglead, cmdline, cursorpos)
-    end,
-})
+        nargs = "+",
+        complete = function(arglead, cmdline, cursorpos)
+            return M.complete(arglead, cmdline, cursorpos)
+        end,
+    })
 end
 
 function M._run(args)
