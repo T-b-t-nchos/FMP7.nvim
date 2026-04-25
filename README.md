@@ -35,7 +35,7 @@ FMP7.nvimは、NeovimからFMP7(FMP7.exe)を制御するためのプラグイン
 > <sub>This plugin is only for Windows.</sub><br>
 > このプラグインはWindowsのみで利用できます。<br>
 
-## 💼 依存関係 - Dependents -
+## 💼 依存関係 - Dependencies -
 - [Neovim](https://github.com/neovim/neovim) 0.11+
 - [FMP7](http://archive.fmp.jp/archives/category/program) 
 - [FMP7CLI (T-b-t-nchos/FMP7CLI)](https://github.com/T-b-t-nchos/FMP7CLI)
