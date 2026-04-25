@@ -49,7 +49,8 @@ return {
     cmd = "FMP",
     opts = {
         FMP7_CLI_PATH = "C:/path/to/FMP7CLI.exe",
-        fadeout_before_play = true
+        
+        -- And your options here.
     },
 }
 
