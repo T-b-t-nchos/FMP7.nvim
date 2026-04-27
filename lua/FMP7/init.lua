@@ -21,6 +21,8 @@ local function resolve_FMP7CLI()
     local archDir
     if machine == "x86_64" or machine == "AMD64" then
         archDir = "x64"
+    elseif machine == "arm64" or machine == "aarch64" then
+        archDir = "x64"
     elseif machine == "i386" or machine == "i686" then
         archDir = "x86"
     else
