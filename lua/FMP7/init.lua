@@ -14,22 +14,8 @@ end
 
 local function resolve_FMP7CLI()
     local rootDir = get_plugin_root()
-    local baseDir = rootDir .. "/bin/FMP7CLI/"
 
-    local machine = vim.loop.os_uname().machine
-
-    local archDir
-    if machine == "x86_64" or machine == "AMD64" then
-        archDir = "x64"
-    elseif machine == "arm64" or machine == "aarch64" then
-        archDir = "x64"
-    elseif machine == "i386" or machine == "i686" then
-        archDir = "x86"
-    else
-        error("Unsupported architecture: " .. machine)
-    end
-
-    local exe = baseDir .. archDir .. "/FMP7CLI.exe"
+    local exe = rootDir .. "/bin/FMP7CLI/FMP7CLI.exe"
 
     if vim.fn.filereadable(exe) == 0 then
         error("FMP7CLI not found: " .. exe)
