@@ -39,7 +39,6 @@ FMP7.nvimは、NeovimからFMP7(FMP7.exe)を制御するためのプラグイン
 ## 💼 依存関係 - Dependencies -
 - [Neovim](https://github.com/neovim/neovim) 0.11+
 - [FMP7](http://archive.fmp.jp/archives/category/program) 
-- [FMP7CLI (T-b-t-nchos/FMP7CLI)](https://github.com/T-b-t-nchos/FMP7CLI)
 
 ## 🔧 インストール - Install -
 ### In Neovim
@@ -49,25 +48,15 @@ return {
     "T-b-t-Nchos/FMP7.nvim",
     cmd = "FMP",
     opts = {
-        FMP7_CLI_PATH = "C:/path/to/FMP7CLI.exe",
-        
-        -- And your options here.
+        -- your options here.
     },
 }
 
 ```
 
-### Other
-- FMP7CLIを任意の場所に配置し、`FMP7_CLI_PATH`にパスを指定してください。
-
-- Place FMP7CLI in any location and specify the path in FMP7_CLI_PATH.
-
-
 ## 🛠️ オプション - Options -
 ```lua
 {
-    FMP7_CLI_PATH = "C:/path/to/FMP7CLI.exe", -- (Required) Specify the path of the command-line tool.
-
     fmp7_path = "C:/path/to/FMP7.exe", -- Specify the path of the FMP7 software.
                                        -- If its value is nil, You can't use the boot sub-command.
     fadeout_before_play = true, -- Whether to fade out before playing.

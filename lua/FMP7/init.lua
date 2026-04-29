@@ -1,28 +1,33 @@
 local M = {}
 
 M.config = {
-    FMP7_CLI_PATH = nil,
-
     fmp7_path = nil,
     fadeout_before_play = true,
 
     play_roots = {},
 }
 
+local function get_plugin_root()
+    local source = debug.getinfo(1, "S").source:sub(2)
+    return vim.fn.fnamemodify(source, ":p:h:h:h")
+end
+
+local function resolve_FMP7CLI()
+    local rootDir = get_plugin_root()
+
+    local exe = rootDir .. "/bin/FMP7CLI/FMP7CLI.exe"
+
+    if vim.fn.filereadable(exe) == 0 then
+        error("FMP7CLI not found: " .. exe)
+    end
+
+    return exe
+end
+
 function M.setup(user_config)
     M.config = vim.tbl_deep_extend("force", M.config, user_config or {})
 
     if vim.fn.has("win32") == 0 and vim.fn.has("win64") == 0 then
-        return
-    end
-
-    if not M.config.FMP7_CLI_PATH or M.config.FMP7_CLI_PATH == "" then
-        vim.notify("FMP.nvim: FMP7_CLI_PATH is not set", vim.log.levels.ERROR)
-        return
-    end
-
-    if vim.fn.executable(M.config.FMP7_CLI_PATH) ~= 1 then
-        vim.notify("FMP7_CLI_PATH value is invalid", vim.log.levels.ERROR)
         return
     end
 
@@ -108,7 +113,7 @@ end
 
 function M._run(args)
     local function run_main()
-        local cmd = { M.config.FMP7_CLI_PATH }
+        local cmd = { resolve_FMP7CLI() }
         vim.list_extend(cmd, args)
 
         vim.system(cmd, { text = true }, function(obj)
@@ -135,7 +140,7 @@ function M._run(args)
     end
 
     if args[1] == "play" then
-        local path = M.config.FMP7_CLI_PATH
+        local path = resolve_FMP7CLI()
         local exe = path and path:match("([^\\/]+)$")
 
         if exe then
@@ -249,7 +254,7 @@ function M._get_supported_exts()
         return M._ext_cache
     end
 
-    local result = vim.system({ M.config.FMP7_CLI_PATH, "get-exts" }, { text = true }):wait()
+    local result = vim.system({ resolve_FMP7CLI(), "get-exts" }, { text = true }):wait()
     local output = (result.stdout or "") .. (result.stderr or "")
 
     -- Windows想定（必要なら削除）
