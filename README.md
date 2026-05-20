@@ -32,6 +32,13 @@ FMP7.nvimは、NeovimからFMP7(FMP7.exe)を制御するためのプラグイン
 <sub>It can be used to play, stop, pause, fade, etc. basic functions.</sub><br>
 再生、停止、ポーズ、フェードなど、基本的な機能を利用することができます。<br>
 
+<sub>Also, you can use FMP7 plugins to play music files from the following drivers:</sub><br>
+また、FMP7の各種プラグインを導入することで、下記のドライバの再生ファイルを再生可能です。<br>
+- FMP-SYSTEM (exFMP4)
+- P.M.D (exPMD)
+- mxdrv (exMXDRV)
+- S98P (exS98P)
+
 > [!WARNING]
 > <sub>This plugin is only for Windows.</sub><br>
 > このプラグインはWindowsのみで利用できます。<br>
