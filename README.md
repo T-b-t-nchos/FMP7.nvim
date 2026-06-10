@@ -69,6 +69,8 @@ return {
                                        -- If its value is nil, You can't use the boot sub-command.
     fadeout_before_play = true, -- Whether to fade out before playing.
     play_roots = { "C:\\path\\to\\root\\1", "C:\\path\\to\\root\\2" }, -- Specify the root directories of playing.
+
+    disable_OS_Warn = false, -- Whether to disable the warning message when the OS isn't Windows.
 }
 ```
 
