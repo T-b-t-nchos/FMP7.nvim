@@ -5,6 +5,8 @@ M.config = {
     fadeout_before_play = true,
 
     play_roots = {},
+
+    disable_OS_Warn = false,
 }
 
 local function get_plugin_root()
@@ -28,6 +30,9 @@ function M.setup(user_config)
     M.config = vim.tbl_deep_extend("force", M.config, user_config or {})
 
     if vim.fn.has("win32") == 0 and vim.fn.has("win64") == 0 then
+        if M.config.disable_OS_Warn == false then
+            vim.notify("FMP7.nvim: FMP7CLI is not supported on this OS. This plugin will be disabled. If you want to disable this warning, set \"disable_OS_Warn\" to true.", vim.log.levels.WARN)
+        end
         return
     end
 
